@@ -9,7 +9,7 @@ export default function SearchInput() {
   const navigate = useNavigate();
 
   const [query, setQuery] = useState("");
-  const [animes, setAnimes] = useState([]);
+  const [animes, setAnimes] = useState<any[]>([]);
   const [showLoader, setShowLoader] = useState(false);
 
   /**
@@ -17,7 +17,7 @@ export default function SearchInput() {
    * getAnime is defined inline, it will be recreated every render,
    * which technically causes debounce(getAnime, 300) to use a new function.
    */
-  const getAnime = useCallback(async (q) => {
+  const getAnime = useCallback(async (q: string) => {
     if (!q.trim()) return;
 
     try {
@@ -29,7 +29,7 @@ export default function SearchInput() {
       setShowLoader(false);
       console.error("Error searching anime:", error);
     }
-  });
+  }, []);
 
   /**
    * I use useMemo here to ensure that debounce(getAnime, 300)
