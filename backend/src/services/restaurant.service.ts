@@ -1,8 +1,8 @@
 import { httpGet } from '../utils/http';
 import { FOURSQUARE_API_KEY, FOURSQUARE_API_URL } from '../config';
-import { FoursquarePlace, FourSquareQueryParams, FoursquareSearchResponse } from '@shared/types/foursquare';
+import { FoursquareDetail, FoursquarePlace, FourSquareQueryParams, FoursquareSearchResponse } from '@shared/types/foursquare';
 import { ParseParams } from '@shared/types/parsed-query';
-import { resolveCategoryId } from '../utils/actionHelper';
+import { resolveCategoryId } from '../utils/loadCategories';
 
 export const searchPlaces = async (action: string, params: ParseParams): Promise<FoursquarePlace[]> => {
     const categoryId = resolveCategoryId(action) || '';
@@ -14,7 +14,7 @@ export const searchPlaces = async (action: string, params: ParseParams): Promise
     const queryParams: FourSquareQueryParams = {
         query: params.query,
         categories: categoryId,
-        limit: 10,
+        limit: 20,
     };
 
     if (params.price) {
@@ -25,7 +25,6 @@ export const searchPlaces = async (action: string, params: ParseParams): Promise
     if (params.near) queryParams.near = params.near;
     if (params.open_now != null) queryParams.open_now = params.open_now;
 
-    // Perform the initial search
     const data = await httpGet<FoursquareSearchResponse>(`${FOURSQUARE_API_URL}/places/search`, {
         headers: { Authorization: FOURSQUARE_API_KEY },
         params: queryParams,
@@ -34,21 +33,19 @@ export const searchPlaces = async (action: string, params: ParseParams): Promise
     const places = await Promise.all(
         data.results.map(async (place) => {
             try {
-                const detail = await httpGet<{ rating?: number }>(
-                    `${FOURSQUARE_API_URL}/places/${place.fsq_id}?fields=rating`,
+                const detail: FoursquareDetail = await httpGet<FoursquareDetail>(
+                    `${FOURSQUARE_API_URL}/places/${place.fsq_id}?fields=rating,hours`,
                     { headers: { Authorization: FOURSQUARE_API_KEY } }
                 );
-                return { ...place, rating: detail.rating };
+                return { ...place, rating: detail.rating, open_now: detail.hours?.open_now };
             } catch (error) {
                 console.warn(`Failed to get rating for fsq_id ${place.fsq_id}`, error);
-                return { ...place, rating: undefined };
+                return { ...place, rating: undefined, open_now: undefined };
             }
         })
     );
 
-    if (!params.rating) {
-        return places;
-    }
+    if (!params.rating) return places;
 
     const filtered = await searchPlacesWithRatingFilter(places, params.rating);
 

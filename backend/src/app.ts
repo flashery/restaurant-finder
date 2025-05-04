@@ -4,7 +4,9 @@ import cors from 'cors';
 import morgan from 'morgan';
 import routes from './routes';
 import { ROUT_PREFIX } from './config';
+import { loadCategories } from './utils/loadCategories';
 
+loadCategories();
 
 const app = express();
 

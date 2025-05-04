@@ -1,34 +1,23 @@
-// {
-//   "compilerOptions": {
-//     "target": "ESNext",
-//     "useDefineForClassFields": true,
-//     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-//     "allowJs": true,
-//     "skipLibCheck": true,
-//     "esModuleInterop": true,
-//     "allowSyntheticDefaultImports": true,
-//     "strict": true,
-//     "forceConsistentCasingInFileNames": true,
-//     "module": "ESNext",
-//     "moduleResolution": "Node",
-//     "resolveJsonModule": true,
-//     "isolatedModules": true,
-//     "noEmit": true,
-//     "jsx": "react-jsx"
-//   },
-//   "include": ["src"]
-// }
-
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "moduleResolution": "Bundler", // ✅ must override the "Node" above
+    "module": "ESNext", // ✅ matches what Vite expects
+    "target": "ESNext",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "jsx": "react-jsx",
-    "module": "ESNext",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["src", "src/vite-env.d.ts", "../shared"]
+  "include": [
+    "src",
+    "src/vite-env.d.ts",
+    "../shared"
+  ]
 }

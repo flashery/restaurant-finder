@@ -1,3 +1,8 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   padding: 0;
@@ -46,7 +51,7 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   background-color: #ffffff;
@@ -72,7 +77,6 @@ body {
   border-radius: 4px;
   outline: none;
   box-sizing: border-box;
-  margin-bottom: 1rem;
   transition: border-color 0.2s ease-in-out;
 }
 
@@ -80,7 +84,7 @@ body {
   border-color: #007bff;
 }
 
-.animes {
+.restaurants {
   list-style: none;
   padding: 0;
   margin-top: 1rem;
@@ -88,7 +92,7 @@ body {
   border-radius: 4px;
 }
 
-.anime-result {
+.restaurant-result {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -98,15 +102,15 @@ body {
   transition: background-color 0.2s ease-in-out;
 }
 
-.anime-result:last-child {
+.restaurant-result:last-child {
   border-bottom: none;
 }
 
-.anime-result:hover {
+.restaurant-result:hover {
   background-color: #f9f9f9;
 }
 
-.anime-thumb {
+.restaurant-thumb {
   width: 50px;
   height: 70px;
   object-fit: cover;
@@ -114,12 +118,12 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.anime-title {
+.restaurant-title {
   font-weight: 500;
   color: #333;
 }
 
-.anime-content {
+.restaurant-content {
   display: flex;
   flex-direction: row;
   gap: 2rem;
@@ -127,30 +131,30 @@ body {
   justify-content: center;
 }
 
-.anime-image {
+.restaurant-image {
   width: 250px;
   border-radius: 10px;
   height: 300px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.anime-info {
+.restaurant-info {
   flex: 1;
   min-width: 250px;
   font-size: 1rem;
   color: #444;
 }
 
-.anime-info p {
+.restaurant-info p {
   margin: 0.5rem 0;
   line-height: 1.5;
 }
 
-.anime-info strong {
+.restaurant-info strong {
   color: #000;
 }
 
-.anime-synopsis {
+.restaurant-synopsis {
   margin-top: 1.5rem;
   font-size: 1.05rem;
   line-height: 1.7;
@@ -169,12 +173,12 @@ body {
 }
 
 @media (max-width: 600px) {
-  .anime-content {
+  .restaurant-content {
     flex-direction: column;
     align-items: center;
   }
 
-  .anime-image {
+  .restaurant-image {
     width: 100%;
     max-width: 300px;
   }

@@ -11,7 +11,7 @@ OUTPUT STRICTLY ONE JSON OBJECT — no markdown, no comments, no extra text.
     "near": "<string>",
     "price": 1 | 2 | 3 | 4 | null,
     "open_now": true | false | null,
-    "rating": 0–5 | null
+    "rating": 0–10 | null
   }
 }
 
@@ -38,7 +38,7 @@ affordable / moderate / mid-range       →  "price": 2
 expensive / pricey                      →  "price": 3  
 very expensive / luxury / high-end      →  "price": 4  
 open now / open right now / currently open →  "open_now": true  
-“X-star or higher”, “at least X stars”  →  "rating": X  (integer 0–5)
+“X-star or higher”, “at least X stars”  →  "rating": X  (integer 0–10)
 
 If the user lists multiple styles or cuisines, join them with commas in "query" (e.g., "sushi, tempura").
 

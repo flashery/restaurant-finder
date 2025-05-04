@@ -1,12 +1,12 @@
 export type FourSquareQueryParams = {
-    query: string;
-    near?: string;
-    categories: string;
-    limit: number;
-    min_price?: '1' | '2' | '3' | '4' | null;
-    max_price?: '1' | '2' | '3' | '4' | null;
-    open_now?: boolean | null;
-    rating?: number | null;
+  query: string;
+  near?: string;
+  categories: string;
+  limit: number;
+  min_price?: '1' | '2' | '3' | '4' | null;
+  max_price?: '1' | '2' | '3' | '4' | null;
+  open_now?: boolean | null;
+  rating?: number | null;
 }
 
 export type FoursquarePlace = {
@@ -58,8 +58,10 @@ export type FoursquarePlace = {
   timezone: string;
   rating?: number;
   display_rating?: string;
-};
+  open_now?: boolean;
+}
 
+export type FoursquareDetail = { rating?: number, hours?: { open_now: boolean } }
 
 export type FoursquareSearchResponse = {
   results: FoursquarePlace[];

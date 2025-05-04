@@ -1,89 +1,41 @@
-import { useState, useCallback, useMemo } from "react";
-import debounce from "lodash.debounce";
-import { useEffect } from "react";
-import { searchAnime } from "../helper/axiosHelper";
-import { useNavigate } from "react-router-dom";
-import Loader from "./Loader";
-
-export default function SearchInput() {
-  const navigate = useNavigate();
-
-  const [query, setQuery] = useState("");
-  const [animes, setAnimes] = useState<any[]>([]);
-  const [showLoader, setShowLoader] = useState(false);
-
-  /**
-   * I wrap getAnime in useCallback, because I am using it in a debounce inside useMemo.
-   * getAnime is defined inline, it will be recreated every render,
-   * which technically causes debounce(getAnime, 300) to use a new function.
-   */
-  const getAnime = useCallback(async (q: string) => {
-    if (!q.trim()) return;
-
-    try {
-      setShowLoader(true);
-      const data = await searchAnime(q);
-      setAnimes(data);
-      setShowLoader(false);
-    } catch (error) {
-      setShowLoader(false);
-      console.error("Error searching anime:", error);
-    }
-  }, []);
-
-  /**
-   * I use useMemo here to ensure that debounce(getAnime, 300)
-   * is only created once and reused on every render. Why not use useCallback?
-   * Because debounce() returns a function, not a callback to pass to another component.
-   * Using useMemo will memoize the returned value of debounce(...).
-   */
-  const optimizeSearch = useMemo(() => debounce(getAnime, 300), []);
-
-  /**
-   * First I checks if the user actually typed something meaningful. So that
-   * we don't waste an API request when there's no real input.
-   * I also cancel any pending debounce call on the cleanup function to prevent
-   * possible cause of errors or state updates on unmounted components
-   */
-  useEffect(() => {
-    if (query.trim()) {
-      optimizeSearch(query);
-    } else {
-      setAnimes([]);
-    }
-    return () => optimizeSearch.cancel();
-  }, [query, optimizeSearch]);
+export default function SearchInput({
+  query,
+  setQuery,
+  onSearch,
+  loading,
+}: {
+  query: string;
+  setQuery: (q: string) => void;
+  onSearch: (q: string) => void;
+  loading: boolean;
+}) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) onSearch(query);
+  };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit} className="flex gap-2 items-center">
       <input
         type="text"
-        placeholder="Search anime"
+        placeholder="Search restaurant"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="search-input"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            onSearch(query);
+          }
+        }}
+        className="search-input flex-1"
       />
-
-      <Loader show={showLoader} />
-
-      {animes.length > 0 && (
-        <ul className="animes">
-          {animes.map((anime) => (
-            <li
-              key={anime.mal_id}
-              className="anime-result"
-              onClick={() => navigate(`anime/${anime.mal_id}`)}
-            >
-              <img
-                src={anime.images?.jpg?.image_url}
-                alt={anime.title}
-                className="anime-thumb"
-              />
-              <span className="anime-title">{anime.title}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <button
+        type="submit"
+        className="px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        disabled={loading}
+      >
+        {loading ? "Searching..." : "Search"}
+      </button>
+    </form>
   );
 }

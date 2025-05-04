@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <header className="page-header">
       <div className="header-content">
-        <h1 className="logo">AnimeFinder</h1>
+        <h1 className="logo">RestaurantFinder</h1>
         <nav>
           <ul className="nav-links">
             <li>
