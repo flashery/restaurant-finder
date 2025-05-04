@@ -6,37 +6,39 @@ const axiosInstance = axios.create({
   },
 });
 
+// Attach authorization headers dynamically
 axiosInstance.interceptors.request.use((config) => {
-  const apiKey = process.env.FOURSQUARE_API_KEY || '';
-
+  const apiKey = process.env.FOURSQUARE_API_KEY;
   config.headers = AxiosHeaders.from({
     ...config.headers,
-    Authorization: apiKey,
+    Authorization: apiKey || '',
   });
 
   return config;
 });
 
-// ✅ Reusable GET
-export const httpGet = <T = any>(
+export const httpGet = async <T = any>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  return axiosInstance.get<T>(url, config).then((res) => res.data);
+  const response = await axiosInstance.get<T>(url, config);
+  return response.data;
 };
 
-export const httpPost = <T = any>(
+export const httpPost = async <T = any>(
   url: string,
   data?: any,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  return axiosInstance.post<T>(url, data, config).then((res) => res.data);
+  const response = await axiosInstance.post<T>(url, data, config);
+  return response.data;
 };
 
-export const httpPut = <T = any>(
+export const httpPut = async <T = any>(
   url: string,
   data?: any,
   config?: AxiosRequestConfig
 ): Promise<T> => {
-  return axiosInstance.put<T>(url, data, config).then((res) => res.data);
+  const response = await axiosInstance.put<T>(url, data, config);
+  return response.data;
 };

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import restaurantRouter from './restaurant.routes';
+import queryRouter from './query.routes';
 
 const router = Router();
 
-router.use('/restaurants', restaurantRouter);
+router.use('/', queryRouter); 
 
 export default router;
