@@ -3,8 +3,8 @@ export type FourSquareQueryParams = {
   near?: string;
   categories: string;
   limit: number;
-  min_price?: '1' | '2' | '3' | '4' | null;
-  max_price?: '1' | '2' | '3' | '4' | null;
+  min_price?: 1 | 2 | 3 | 4 | null;
+  max_price?: 1 | 2 | 3 | 4 | null;
   open_now?: boolean | null;
   rating?: number | null;
 }

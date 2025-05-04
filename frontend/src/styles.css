@@ -11,7 +11,7 @@ body {
 }
 
 .page-header {
-  background-color: #1f2937;
+  background-color: #4c9c6c;
   padding: 1rem 2rem;
   color: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -21,14 +21,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 20px 40px;
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #facc15; /* Yellow tone */
+  color: #ffffff;
+  /* Yellow tone */
 }
 
 .nav-links {
@@ -47,7 +49,8 @@ body {
 }
 
 .nav-links a:hover {
-  color: #facc15; /* yellow on hover */
+  color: #facc15;
+  /* yellow on hover */
 }
 
 .container {
@@ -62,6 +65,7 @@ body {
   margin-bottom: 1rem;
   font-size: 2rem;
 }
+
 .loader {
   display: flex;
   flex-direction: column;

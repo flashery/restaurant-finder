@@ -8,3 +8,4 @@ export const FOURSQUARE_API_KEY = process.env.FOURSQUARE_API_KEY || '';
 export const FOURSQUARE_API_URL = process.env.FOURSQUARE_API_URL || '';
 export const PORT = process.env.PORT || 4000;
 export const FOURSQUARE_CATEGORIES = process.env.FOURSQUARE_CATEGORIES || '';
+export const MODEL = process.env.MODEL || 'gpt-4o';

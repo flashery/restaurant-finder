@@ -43,4 +43,5 @@ open now / open right now / currently open →  "open_now": true
 If the user lists multiple styles or cuisines, join them with commas in "query" (e.g., "sushi, tempura").
 
 REMEMBER: Respond with exactly one valid JSON object and nothing else.
+DO NOT wrap the JSON in \`\`\`json or any code block. Output raw JSON only.
 `;
