@@ -12,5 +12,7 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
+    env_file:
+      - ./frontend/.env
     ports:
       - "80:80"
