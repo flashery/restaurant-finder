@@ -33,7 +33,7 @@ describe('Query Service - parseRestaurantQuery', () => {
         mockCreateCompletion.mockResolvedValueOnce(validResponse);
         
 
-        const result = await parseRestaurantQuery('Find me a pizza place');
+        const result = await parseRestaurantQuery('Find me a pizza place', 2);
 
         expect(result.parameters.query).toBe('pizza');
     });

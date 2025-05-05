@@ -1,31 +1,41 @@
-# === Stage 1: Build ===
+# ─── Stage 1: Build & compile ────────────────────────────────────────────────
 FROM node:18 AS builder
-
 WORKDIR /app
 
-# Copy everything needed
-COPY . .
+# Copy monorepo manifests
+COPY package.json        pnpm-lock.yaml       pnpm-workspace.yaml ./
+COPY tsconfig.json       ./
 
-# Install deps & build
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
-RUN pnpm --filter backend run build
+# Copy code
+COPY shared/             shared/
+COPY backend/            backend/
 
-# === Stage 2: Runtime ===
+# Install & build
+RUN npm install -g pnpm \
+ && pnpm install --frozen-lockfile \
+ && pnpm --filter backend run build
+#   → emits /app/backend/dist/
+
+# ─── Stage 2: Runtime ───────────────────────────────────────────────────────
 FROM node:18-slim
-
 WORKDIR /app
-
 ENV NODE_ENV=production
 
-# Install only runtime dependencies
+# 1) Install PNPM & PM2
 RUN npm install -g pnpm pm2
 
-# Copy compiled app and only necessary files
+# 2) Copy only the lockfile & backend manifest
+COPY pnpm-lock.yaml       ./
+COPY pnpm-workspace.yaml  ./
+COPY backend/package.json ./package.json
+
+# 3) Install only backend’s production deps
+RUN pnpm install --prod --frozen-lockfile --filter backend
+
+# 4) Copy compiled code
 COPY --from=builder /app/backend/dist ./dist
-COPY --from=builder /app/backend/package.json ./
-COPY --from=builder /app/backend/node_modules ./node_modules
-COPY --from=builder /app/shared ./shared
 
 EXPOSE 4000
 
-CMD ["pm2-runtime", "dist/server.js"]
+# 5) Run the server
+CMD ["pm2-runtime", "dist/backend/src/server.js"]
