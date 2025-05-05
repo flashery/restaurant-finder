@@ -29,7 +29,6 @@ COPY pnpm-lock.yaml       ./
 COPY pnpm-workspace.yaml  ./
 COPY backend/package.json ./package.json
 COPY --from=builder /app/shared/data       ./dist/shared/data
-COPY --from=builder /app/backend/env.example       ./dist/backend/.env
 
 # 3) Install only backend’s production deps
 RUN pnpm install --prod --filter backend
