@@ -12,7 +12,7 @@ COPY backend/            backend/
 
 # Install & build
 RUN npm install -g pnpm \
- && pnpm install --frozen-lockfile \
+ && pnpm install \
  && pnpm --filter backend run build
 #   → emits /app/backend/dist/
 
@@ -28,9 +28,10 @@ RUN npm install -g pnpm pm2
 COPY pnpm-lock.yaml       ./
 COPY pnpm-workspace.yaml  ./
 COPY backend/package.json ./package.json
+COPY --from=builder /app/shared/data       ./dist/shared/data
 
 # 3) Install only backend’s production deps
-RUN pnpm install --prod --frozen-lockfile --filter backend
+RUN pnpm install --prod --filter backend
 
 # 4) Copy compiled code
 COPY --from=builder /app/backend/dist ./dist
