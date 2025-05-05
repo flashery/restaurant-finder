@@ -22,9 +22,9 @@ fi
 
 
 # 🧠 Auto-detect correct docker-compose command
-if command -v docker compose &> /dev/null; then
+if docker compose version &>/dev/null; then
   DC="docker compose"
-elif command -v docker-compose &> /dev/null; then
+elif docker-compose version &>/dev/null; then
   DC="docker-compose"
 else
   echo "❌ Docker Compose is not installed."
