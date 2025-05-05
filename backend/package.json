@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "test": "jest --silent=false --detectOpenHandles --forceExit --coverage"
+    "test": "jest --silent=false --detectOpenHandles --forceExit --coverage",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
